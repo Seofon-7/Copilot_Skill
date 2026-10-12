@@ -49,7 +49,7 @@ param(
 Set-StrictMode -Version 2.0
 $ErrorActionPreference = 'Stop'
 
-$ScriptVersion = '1.0.0'
+$ScriptVersion = '1.0.1'
 $CimHome    = Join-Path $HOME '.cim-skills'
 if (-not $ConfigPath) { $ConfigPath = Join-Path $CimHome 'config.json' }
 $RepoDir    = Join-Path $CimHome 'repo'
@@ -310,7 +310,8 @@ function Resolve-Target {
     }
     $bestTag = $null
     $bestVer = $null
-    foreach ($t in (Invoke-Git -Arguments @('-C', $RepoDir, 'tag', '--list', 'v*')).Output) {
+    # No wildcard argument here: PowerShell 7 on Linux/macOS expands 'v*' against the current folder.
+    foreach ($t in (Invoke-Git -Arguments @('-C', $RepoDir, 'tag', '--list')).Output) {
         $t = $t.Trim()
         if ($t -match '^v(\d+)\.(\d+)\.(\d+)$') {
             $v = New-Object System.Version ([int]$Matches[1]), ([int]$Matches[2]), ([int]$Matches[3])

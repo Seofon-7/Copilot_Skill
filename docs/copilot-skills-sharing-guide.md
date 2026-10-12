@@ -372,6 +372,7 @@ cim-copilot-skills/
 │     ├─ SKILL.md
 │     └─ references/
 │        └─ checklist.md
+│  └─ （v1.1.0 另收錄 10 個公開 skill，見 THIRD_PARTY_NOTICES.md）
 ├─ tools/
 │  ├─ cim-skills-sync.ps1        同步主程式
 │  ├─ install.ps1                安裝（每人一次）
@@ -387,6 +388,7 @@ cim-copilot-skills/
 ├─ .gitlab-ci.yml
 ├─ VERSION                       例：1.0.0
 ├─ CHANGELOG.md
+├─ THIRD_PARTY_NOTICES.md      外部 skill 的授權與來源
 └─ README.md
 ```
 
@@ -638,6 +640,7 @@ GitLab 只看得到誰在什麼時候存取了 repo，看不到：
 | `.gitlab-ci.yml` | CI 設定 | GitLab |
 | `.gitlab/CODEOWNERS`、`.gitlab/merge_request_templates/Skill.md` | 審核設定、MR 範本 | GitLab |
 | `VERSION`、`CHANGELOG.md`、`README.md` | 版本與說明 | — |
+| `THIRD_PARTY_NOTICES.md` | 外部 skill 的授權、來源與修改紀錄 | — |
 | `skills/...` | 三個範例 skill | — |
 
 > **存檔注意**：`.ps1` 檔案都只用 ASCII 字元，用任何編輯器存檔都可以。如果之後要在 `.ps1` 裡加中文，請存成「UTF-8 with BOM」。
@@ -751,7 +754,7 @@ param(
 Set-StrictMode -Version 2.0
 $ErrorActionPreference = 'Stop'
 
-$ScriptVersion = '1.0.0'
+$ScriptVersion = '1.0.1'
 $CimHome    = Join-Path $HOME '.cim-skills'
 if (-not $ConfigPath) { $ConfigPath = Join-Path $CimHome 'config.json' }
 $RepoDir    = Join-Path $CimHome 'repo'
@@ -1012,7 +1015,8 @@ function Resolve-Target {
     }
     $bestTag = $null
     $bestVer = $null
-    foreach ($t in (Invoke-Git -Arguments @('-C', $RepoDir, 'tag', '--list', 'v*')).Output) {
+    # No wildcard argument here: PowerShell 7 on Linux/macOS expands 'v*' against the current folder.
+    foreach ($t in (Invoke-Git -Arguments @('-C', $RepoDir, 'tag', '--list')).Output) {
         $t = $t.Trim()
         if ($t -match '^v(\d+)\.(\d+)\.(\d+)$') {
             $v = New-Object System.Version ([int]$Matches[1]), ([int]$Matches[2]), ([int]$Matches[3])
@@ -2239,6 +2243,8 @@ if __name__ == "__main__":
 
 這三個 skill 只是用來驗證機制的範例，內容請換成課內實際規範。
 
+> v1.1.0 另外收錄了 10 個公開 skill（.NET 測試、重構、效能、SQL、除錯）。完整清單見 9.11 節的 `README.md`，挑選理由見 `docs/recommended-skills.md`，授權與來源見 `THIRD_PARTY_NOTICES.md`。這些 skill 內容較長，未收錄在本文件中，請直接看 repo。
+
 #### `skills/cim-csharp-coding-standard/SKILL.md`
 
 ```markdown
@@ -2436,7 +2442,7 @@ metadata:
 #### `VERSION`
 
 ```text
-1.0.0
+1.1.0
 ```
 
 #### `CHANGELOG.md`
@@ -2450,6 +2456,19 @@ metadata:
 - PATCH：修正文字、修正錯誤
 
 ## [Unreleased]
+
+## [1.1.0] - 2026-10-13
+### Added
+- 收錄 10 個公開 skill（皆為 MIT 授權，來源與修改內容見 THIRD_PARTY_NOTICES.md）：
+  - 測試：cim-run-tests、cim-code-testing、cim-test-anti-patterns（dotnet/skills）
+  - 重構與效能：cim-csharp-refactoring、cim-dotnet-performance（dotnet/skills）
+  - SQL：cim-sql-code-review、cim-sql-impact-analysis（github/awesome-copilot）
+  - C#：cim-csharp-async（github/awesome-copilot）
+  - 工作方法：cim-systematic-debugging、cim-verification-before-completion（obra/superpowers）
+- THIRD_PARTY_NOTICES.md
+
+### Fixed
+- cim-skills-sync.ps1 1.0.1：查詢 tag 時不再使用萬用字元參數。PowerShell 7 在 Linux/macOS 會把 `v*` 展開成目前資料夾的檔名（例如 `VERSION`），導致找不到 tag；Windows 不受影響。已安裝的電腦會透過自我更新取得修正版。
 
 ## [1.0.0] - 2026-10-12
 ### Added
@@ -2496,6 +2515,47 @@ metadata:
 <!-- 用了什麼提示詞觸發、在哪個 IDE、結果截圖 -->
 ```
 
+#### `THIRD_PARTY_NOTICES.md`
+
+```markdown
+# Third-Party Notices
+
+本 repo 的部分 skill 取自以下公開專案，皆為 MIT 授權。每個 skill 資料夾內都附有原始 `LICENSE` 檔，`SKILL.md` 的 `metadata.source` 與 `metadata.source-ref` 記錄了來源路徑與 commit。
+
+## 修改內容
+
+所有取自外部的 skill 都做了以下修改：
+
+- 資料夾與 `name` 加上 `cim-` 前綴
+- `description` 最後加上中文關鍵字（`cim-csharp-async` 另外補了英文的使用時機）
+- 若 skill 內文提到其他同樣被收錄的 skill，名稱改為對應的 `cim-` 名稱
+- `cim-systematic-debugging` 移除了上游用來測試 skill 本身的開發檔案（`CREATION-LOG.md`、`test-academic.md`、`test-pressure-*.md`）
+
+## 來源
+
+| Skill | 上游 | 路徑 | Commit | 授權 / 版權 |
+|---|---|---|---|---|
+| `cim-run-tests` | [dotnet/skills](https://github.com/dotnet/skills) | `plugins/dotnet-test/skills/run-tests` | `9864ca7` | MIT, Copyright (c) .NET Foundation and Contributors |
+| `cim-code-testing` | [dotnet/skills](https://github.com/dotnet/skills) | `plugins/dotnet-test/skills/code-testing` | `9864ca7` | MIT, Copyright (c) .NET Foundation and Contributors |
+| `cim-test-anti-patterns` | [dotnet/skills](https://github.com/dotnet/skills) | `plugins/dotnet-test/skills/test-anti-patterns` | `9864ca7` | MIT, Copyright (c) .NET Foundation and Contributors |
+| `cim-csharp-refactoring` | [dotnet/skills](https://github.com/dotnet/skills) | `plugins/dotnet/skills/csharp-refactoring` | `9864ca7` | MIT, Copyright (c) .NET Foundation and Contributors |
+| `cim-dotnet-performance` | [dotnet/skills](https://github.com/dotnet/skills) | `plugins/dotnet-diag/skills/analyzing-dotnet-performance` | `9864ca7` | MIT, Copyright (c) .NET Foundation and Contributors |
+| `cim-sql-code-review` | [github/awesome-copilot](https://github.com/github/awesome-copilot) | `skills/sql-code-review` | `70ddff7` | MIT, Copyright GitHub, Inc. |
+| `cim-sql-impact-analysis` | [github/awesome-copilot](https://github.com/github/awesome-copilot) | `skills/sql-object-impact-analysis` | `70ddff7` | MIT, Copyright GitHub, Inc. |
+| `cim-csharp-async` | [github/awesome-copilot](https://github.com/github/awesome-copilot) | `skills/csharp-async` | `70ddff7` | MIT, Copyright GitHub, Inc. |
+| `cim-systematic-debugging` | [obra/superpowers](https://github.com/obra/superpowers) | `skills/systematic-debugging` | `bb92a77` | MIT, Copyright (c) 2025 Jesse Vincent |
+| `cim-verification-before-completion` | [obra/superpowers](https://github.com/obra/superpowers) | `skills/verification-before-completion` | `bb92a77` | MIT, Copyright (c) 2025 Jesse Vincent |
+
+## 更新上游
+
+每季比對上游 commit，有重要更新時：
+
+1. 重新複製上游資料夾。
+2. 重做上面「修改內容」列出的修改。
+3. 更新 `metadata.source-ref`。
+4. 照一般流程發 MR。
+```
+
 #### `README.md`
 
 ````markdown
@@ -2513,6 +2573,26 @@ powershell -ExecutionPolicy Bypass -File $env:TEMP\cim-skills-setup\tools\instal
 ```
 
 安裝完成後重新開啟 VS Code / Visual Studio。之後會在登入後與每天自動同步，不需要手動更新。
+
+## 目前收錄的 skill（v1.1.0）
+
+| 分類 | Skill | 用途 | 來源 |
+|---|---|---|---|
+| 課內規範 | `cim-csharp-coding-standard` | C# 程式撰寫規範 | 課內自製 |
+| | `cim-commit-message` | commit message 規範 | 課內自製 |
+| | `cim-code-review` | code review 檢查清單 | 課內自製 |
+| 測試 | `cim-run-tests` | 下正確的 `dotnet test` 指令與篩選條件 | dotnet/skills |
+| | `cim-code-testing` | 為既有程式補單元測試、修失敗的測試 | dotnet/skills |
+| | `cim-test-anti-patterns` | 找出沒驗證東西、不穩定等壞測試 | dotnet/skills |
+| 重構與效能 | `cim-csharp-refactoring` | 不改變行為的安全重構 | dotnet/skills |
+| | `cim-dotnet-performance` | 掃描 .NET 效能反模式 | dotnet/skills |
+| SQL | `cim-sql-code-review` | SQL 安全與品質審查 | github/awesome-copilot |
+| | `cim-sql-impact-analysis` | 改 table、欄位、預存程序前追出所有影響範圍 | github/awesome-copilot |
+| C# | `cim-csharp-async` | async/await 最佳實務 | github/awesome-copilot |
+| 工作方法 | `cim-systematic-debugging` | 先找根因再修 | obra/superpowers |
+| | `cim-verification-before-completion` | 宣稱完成前先跑驗證 | obra/superpowers |
+
+外部 skill 的授權、來源 commit 與修改內容見 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
 ## 常用指令
 

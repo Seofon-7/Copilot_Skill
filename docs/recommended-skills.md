@@ -36,6 +36,8 @@
 
 這 10 個和 CIM 課日常工作最相關，而且內容不依賴特定工具，在 Copilot 上可以直接用。
 
+> ✅ **已收錄在 POC repo v1.1.0**（`poc/cim-copilot-skills/skills/`），已改名、補中文關鍵字並附授權檔。來源 commit 與修改內容見 [THIRD_PARTY_NOTICES.md](../poc/cim-copilot-skills/THIRD_PARTY_NOTICES.md)。
+
 | # | 導入後名稱 | 原始 skill | 來源 | 解決什麼問題 |
 |---|---|---|---|---|
 | 1 | `cim-run-tests` | `run-tests` | dotnet/skills（dotnet-test） | 讓 Copilot 下正確的 `dotnet test` 指令與篩選條件，不再亂猜參數 |
@@ -51,7 +53,7 @@
 
 **導入時要注意的細節**：
 
-- `code-testing` 內有兩處提到「委派給子代理（subagent）」的流程，Copilot 沒有對應功能時這段沒有作用，導入時可以刪掉。
+- `code-testing` 原本是設計給 dotnet/skills 附帶的 `test-engineer` 等自訂 agent 協作使用。沒有這些 agent 時，它會改用內建的「研究 → 規劃 → 實作」流程完成，所以收錄時保留原文、未做刪減。
 - `systematic-debugging` 附帶 `.sh` 和 `.ts` 範例腳本，Windows 上需要 Git Bash 或 Node 才能執行。只保留說明文件也可以。
 - 我們現有的 `cim-code-review` 可以吸收 #3、#6 的檢查項目，避免功能重疊的 skill 太多，讓 Copilot 不知道該用哪一個。
 
@@ -150,7 +152,7 @@ metadata:
 
 | 時間 | 動作 |
 |---|---|
-| POC 第 2 週 | 從第 3 章挑 3～5 個（建議 #2、#4、#7、#9、#10），和課內自製的 skill 一起發 v1.0.0 |
+| POC 第 2 週 | 第 3 章的 10 個已收錄在 v1.1.0；可依課內需要先拿掉幾個，和課內自製的 skill 一起發第一版 |
 | 試行期間 | 收集哪些 skill 常被觸發、哪些結果不好 |
 | 正式導入後 | 每季依回饋從第 4 章補充，並移除沒人用的 skill |
 

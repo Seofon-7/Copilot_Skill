@@ -13,6 +13,26 @@ powershell -ExecutionPolicy Bypass -File $env:TEMP\cim-skills-setup\tools\instal
 
 安裝完成後重新開啟 VS Code / Visual Studio。之後會在登入後與每天自動同步，不需要手動更新。
 
+## 目前收錄的 skill（v1.1.0）
+
+| 分類 | Skill | 用途 | 來源 |
+|---|---|---|---|
+| 課內規範 | `cim-csharp-coding-standard` | C# 程式撰寫規範 | 課內自製 |
+| | `cim-commit-message` | commit message 規範 | 課內自製 |
+| | `cim-code-review` | code review 檢查清單 | 課內自製 |
+| 測試 | `cim-run-tests` | 下正確的 `dotnet test` 指令與篩選條件 | dotnet/skills |
+| | `cim-code-testing` | 為既有程式補單元測試、修失敗的測試 | dotnet/skills |
+| | `cim-test-anti-patterns` | 找出沒驗證東西、不穩定等壞測試 | dotnet/skills |
+| 重構與效能 | `cim-csharp-refactoring` | 不改變行為的安全重構 | dotnet/skills |
+| | `cim-dotnet-performance` | 掃描 .NET 效能反模式 | dotnet/skills |
+| SQL | `cim-sql-code-review` | SQL 安全與品質審查 | github/awesome-copilot |
+| | `cim-sql-impact-analysis` | 改 table、欄位、預存程序前追出所有影響範圍 | github/awesome-copilot |
+| C# | `cim-csharp-async` | async/await 最佳實務 | github/awesome-copilot |
+| 工作方法 | `cim-systematic-debugging` | 先找根因再修 | obra/superpowers |
+| | `cim-verification-before-completion` | 宣稱完成前先跑驗證 | obra/superpowers |
+
+外部 skill 的授權、來源 commit 與修改內容見 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+
 ## 常用指令
 
 | 目的 | 指令 |

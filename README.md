@@ -7,7 +7,7 @@
 | 📄 說明文件 | [docs/copilot-skills-sharing-guide.md](docs/copilot-skills-sharing-guide.md) | 完整的研究規劃、方案比較、架構設計、POC 程式碼與操作手冊 |
 | ⭐ 推薦 Skills | [docs/recommended-skills.md](docs/recommended-skills.md) | 目前值得導入的公開 Agent Skills（.NET、SQL、除錯、測試），含授權與導入方式 |
 | 📊 報告簡報 | [slides/copilot-skills-sharing-presentation.pptx](slides/copilot-skills-sharing-presentation.pptx) | 17 頁，每頁附講稿備註（點進去後按右上角下載） |
-| 🧪 POC 程式 | [poc/cim-copilot-skills/](poc/cim-copilot-skills/) | 共用 skill repo 的完整內容，可直接搬到公司 GitLab |
+| 🧪 POC 程式 | [poc/cim-copilot-skills/](poc/cim-copilot-skills/) | 共用 skill repo 的完整內容（v1.1.0，13 個 skill），可直接搬到公司 GitLab |
 
 ## 快速導覽
 
