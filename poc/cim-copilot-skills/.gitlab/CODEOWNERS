@@ -1,0 +1,8 @@
+# 所有變更預設由 skills 維護者審核（請換成實際的 GitLab 群組或帳號）
+* @cim/skills-maintainers
+
+# 同步工具會在每台電腦上執行，必須由維護者審核
+/tools/ @cim/skills-maintainers
+
+# 個別 skill 可以指定負責人，例如：
+# /skills/cim-csharp-coding-standard/ @alice @bob

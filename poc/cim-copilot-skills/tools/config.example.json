@@ -1,0 +1,14 @@
+{
+  "repoUrl": "https://gitlab.example.local/cim/cim-copilot-skills.git",
+  "channel": "stable",
+  "betaBranch": "main",
+  "pinnedVersion": "",
+  "skillsDir": "",
+  "skillPrefix": "cim-",
+  "reportDir": "\\\\fileserver\\CIM\\copilot-skills-status",
+  "reportUrl": "",
+  "reportUseWindowsAuth": false,
+  "selfUpdate": true,
+  "keepBackups": 5,
+  "keepLogDays": 14
+}

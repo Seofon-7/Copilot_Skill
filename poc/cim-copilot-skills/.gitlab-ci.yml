@@ -1,0 +1,32 @@
+# CI for the shared skills repository
+# - MR / main: validate every skill
+# - tag vX.Y.Z: validate again, check the tag matches VERSION, publish a skill catalogue
+#
+# Replace the image with one from your internal registry if the runner cannot reach Docker Hub.
+# A Windows shell runner with Python installed also works (remove `image:`).
+
+stages:
+  - lint
+  - release
+
+default:
+  image: python:3.12-slim
+
+lint-skills:
+  stage: lint
+  script:
+    - python tools/lint_skills.py --root .
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+verify-release:
+  stage: release
+  script:
+    - python tools/lint_skills.py --root . --tag "$CI_COMMIT_TAG" --index skills-index.json
+  artifacts:
+    paths:
+      - skills-index.json
+    expire_in: 1 year
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
